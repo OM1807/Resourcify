@@ -1,19 +1,24 @@
-import { Bell, Search, Moon, Sun, AlertTriangle, CheckCircle2, Info, X } from "lucide-react";
+import { Bell, Search, Moon, Sun, AlertTriangle, CheckCircle2, Info, X, LogOut } from "lucide-react";
 import { useTheme } from "@/components/theme-provider";
 import { useState, useRef, useEffect } from "react";
 import { useAppStore } from "@/lib/app-store";
+import { useAuth } from "@/lib/auth-store";
 import { useNavigate } from "@tanstack/react-router";
 
 export function TopBar() {
   const { theme, toggle } = useTheme();
   const { searchQuery, setSearchQuery, notifications, markNotificationsRead } = useAppStore();
+  const { user, logout } = useAuth();
   const [bellOpen, setBellOpen] = useState(false);
+  const [userOpen, setUserOpen] = useState(false);
   const bellRef = useRef<HTMLDivElement>(null);
+  const userRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (bellRef.current && !bellRef.current.contains(e.target as Node)) setBellOpen(false);
+      if (userRef.current && !userRef.current.contains(e.target as Node)) setUserOpen(false);
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
