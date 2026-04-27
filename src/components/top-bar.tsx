@@ -1,19 +1,24 @@
-import { Bell, Search, Moon, Sun, AlertTriangle, CheckCircle2, Info, X } from "lucide-react";
+import { Bell, Search, Moon, Sun, AlertTriangle, CheckCircle2, Info, X, LogOut } from "lucide-react";
 import { useTheme } from "@/components/theme-provider";
 import { useState, useRef, useEffect } from "react";
 import { useAppStore } from "@/lib/app-store";
+import { useAuth } from "@/lib/auth-store";
 import { useNavigate } from "@tanstack/react-router";
 
 export function TopBar() {
   const { theme, toggle } = useTheme();
   const { searchQuery, setSearchQuery, notifications, markNotificationsRead } = useAppStore();
+  const { user, logout } = useAuth();
   const [bellOpen, setBellOpen] = useState(false);
+  const [userOpen, setUserOpen] = useState(false);
   const bellRef = useRef<HTMLDivElement>(null);
+  const userRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (bellRef.current && !bellRef.current.contains(e.target as Node)) setBellOpen(false);
+      if (userRef.current && !userRef.current.contains(e.target as Node)) setUserOpen(false);
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
@@ -97,14 +102,37 @@ export function TopBar() {
         )}
       </div>
 
-      <div className="flex items-center gap-3 pl-3 border-l border-border">
-        <div className="hidden md:block text-right leading-tight">
-          <div className="text-sm font-medium">Anika Rao</div>
-          <div className="text-[11px] text-muted-foreground">Field Coordinator</div>
-        </div>
-        <div className="w-9 h-9 rounded-full gradient-primary grid place-items-center text-primary-foreground font-semibold text-sm shadow-glow">
-          AR
-        </div>
+      <div className="relative" ref={userRef}>
+        <button
+          onClick={() => setUserOpen((v) => !v)}
+          className="flex items-center gap-3 pl-3 border-l border-border hover:opacity-90 transition-opacity"
+        >
+          <div className="hidden md:block text-right leading-tight">
+            <div className="text-sm font-medium">{user?.name ?? "Guest"}</div>
+            <div className="text-[11px] text-muted-foreground">{user?.title ?? "—"}</div>
+          </div>
+          <div className="w-9 h-9 rounded-full gradient-primary grid place-items-center text-primary-foreground font-semibold text-sm shadow-glow">
+            {user?.initials ?? "?"}
+          </div>
+        </button>
+
+        {userOpen && (
+          <div className="absolute right-0 top-12 w-60 rounded-2xl border border-border bg-card shadow-elegant overflow-hidden z-50">
+            <div className="px-4 py-3 border-b border-border">
+              <div className="text-sm font-semibold">{user?.name}</div>
+              <div className="text-[11px] text-muted-foreground truncate">{user?.email ?? user?.phone}</div>
+              <div className="mt-2 text-[10px] uppercase tracking-wider text-primary font-semibold">
+                {user?.role === "admin" ? "NGO Administrator" : "Volunteer"}
+              </div>
+            </div>
+            <button
+              onClick={() => { logout(); setUserOpen(false); navigate({ to: "/login" }); }}
+              className="w-full flex items-center gap-2 px-4 py-3 text-sm text-critical hover:bg-critical/5 transition-colors"
+            >
+              <LogOut className="w-4 h-4" /> Sign out
+            </button>
+          </div>
+        )}
       </div>
     </header>
   );
