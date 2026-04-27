@@ -15,6 +15,8 @@ const navItems = [
 
 export function AppSidebar() {
   const { pathname } = useLocation();
+  const { incidents } = useAppStore();
+  const criticalCount = incidents.filter((i) => i.priority === "critical" && i.status !== "resolved").length;
 
   return (
     <aside className="hidden lg:flex w-64 shrink-0 flex-col border-r border-sidebar-border bg-sidebar/80 backdrop-blur-xl">
@@ -48,9 +50,9 @@ export function AppSidebar() {
               )}
               <Icon className={cn("w-4 h-4 transition-colors", active && "text-primary")} />
               <span className="flex-1">{item.label}</span>
-              {"badge" in item && item.badge && (
+              {item.badge && criticalCount > 0 && (
                 <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-critical/15 text-critical">
-                  {item.badge}
+                  {criticalCount}
                 </span>
               )}
             </Link>
