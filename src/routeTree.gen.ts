@@ -11,7 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WhatsappRouteImport } from './routes/whatsapp'
 import { Route as VolunteersRouteImport } from './routes/volunteers'
+import { Route as VolunteerRouteImport } from './routes/volunteer'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as LifecycleRouteImport } from './routes/lifecycle'
 import { Route as IncidentsRouteImport } from './routes/incidents'
 import { Route as DashboardRouteImport } from './routes/dashboard'
@@ -28,9 +30,19 @@ const VolunteersRoute = VolunteersRouteImport.update({
   path: '/volunteers',
   getParentRoute: () => rootRouteImport,
 } as any)
+const VolunteerRoute = VolunteerRouteImport.update({
+  id: '/volunteer',
+  path: '/volunteer',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LifecycleRoute = LifecycleRouteImport.update({
@@ -65,7 +77,9 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRoute
   '/incidents': typeof IncidentsRoute
   '/lifecycle': typeof LifecycleRoute
+  '/login': typeof LoginRoute
   '/settings': typeof SettingsRoute
+  '/volunteer': typeof VolunteerRoute
   '/volunteers': typeof VolunteersRoute
   '/whatsapp': typeof WhatsappRoute
 }
@@ -75,7 +89,9 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardRoute
   '/incidents': typeof IncidentsRoute
   '/lifecycle': typeof LifecycleRoute
+  '/login': typeof LoginRoute
   '/settings': typeof SettingsRoute
+  '/volunteer': typeof VolunteerRoute
   '/volunteers': typeof VolunteersRoute
   '/whatsapp': typeof WhatsappRoute
 }
@@ -86,7 +102,9 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRoute
   '/incidents': typeof IncidentsRoute
   '/lifecycle': typeof LifecycleRoute
+  '/login': typeof LoginRoute
   '/settings': typeof SettingsRoute
+  '/volunteer': typeof VolunteerRoute
   '/volunteers': typeof VolunteersRoute
   '/whatsapp': typeof WhatsappRoute
 }
@@ -98,7 +116,9 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/incidents'
     | '/lifecycle'
+    | '/login'
     | '/settings'
+    | '/volunteer'
     | '/volunteers'
     | '/whatsapp'
   fileRoutesByTo: FileRoutesByTo
@@ -108,7 +128,9 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/incidents'
     | '/lifecycle'
+    | '/login'
     | '/settings'
+    | '/volunteer'
     | '/volunteers'
     | '/whatsapp'
   id:
@@ -118,7 +140,9 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/incidents'
     | '/lifecycle'
+    | '/login'
     | '/settings'
+    | '/volunteer'
     | '/volunteers'
     | '/whatsapp'
   fileRoutesById: FileRoutesById
@@ -129,7 +153,9 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRoute
   IncidentsRoute: typeof IncidentsRoute
   LifecycleRoute: typeof LifecycleRoute
+  LoginRoute: typeof LoginRoute
   SettingsRoute: typeof SettingsRoute
+  VolunteerRoute: typeof VolunteerRoute
   VolunteersRoute: typeof VolunteersRoute
   WhatsappRoute: typeof WhatsappRoute
 }
@@ -150,11 +176,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VolunteersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/volunteer': {
+      id: '/volunteer'
+      path: '/volunteer'
+      fullPath: '/volunteer'
+      preLoaderRoute: typeof VolunteerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/settings': {
       id: '/settings'
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/lifecycle': {
@@ -201,7 +241,9 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRoute,
   IncidentsRoute: IncidentsRoute,
   LifecycleRoute: LifecycleRoute,
+  LoginRoute: LoginRoute,
   SettingsRoute: SettingsRoute,
+  VolunteerRoute: VolunteerRoute,
   VolunteersRoute: VolunteersRoute,
   WhatsappRoute: WhatsappRoute,
 }
