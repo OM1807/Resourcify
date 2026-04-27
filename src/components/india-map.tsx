@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { incidents, priorityStyles, type Incident } from "@/lib/mock-data";
+import { type Incident } from "@/lib/mock-data";
+import { useAppStore } from "@/lib/app-store";
 
 interface IndiaMapProps {
   selectedId?: string;
@@ -12,6 +13,7 @@ interface IndiaMapProps {
 const INDIA_PATH = "M40 8 L48 6 L55 9 L60 7 L66 10 L70 14 L74 12 L78 16 L82 14 L86 18 L88 22 L92 26 L94 32 L92 38 L88 42 L86 48 L82 50 L78 48 L76 52 L78 58 L74 62 L70 58 L66 62 L62 60 L60 64 L62 70 L66 74 L68 80 L66 86 L62 90 L58 92 L54 90 L52 86 L50 82 L46 80 L42 82 L40 86 L38 82 L36 76 L38 70 L36 64 L34 58 L32 52 L30 46 L28 40 L26 34 L24 28 L26 22 L30 18 L34 14 L38 10 Z";
 
 export function IndiaMap({ selectedId, onSelect, compact = false, showLabels = true }: IndiaMapProps) {
+  const { incidents } = useAppStore();
   return (
     <div className="relative w-full h-full overflow-hidden rounded-2xl">
       {/* Background gradient + grid */}
