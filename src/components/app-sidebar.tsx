@@ -1,15 +1,16 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { LayoutDashboard, AlertTriangle, Users, BarChart3, Settings, MessageCircle, Activity, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAppStore } from "@/lib/app-store";
 
 const navItems = [
-  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { to: "/incidents", label: "Incidents", icon: AlertTriangle, badge: "8" },
-  { to: "/volunteers", label: "Volunteers", icon: Users },
-  { to: "/analytics", label: "Analytics", icon: BarChart3 },
-  { to: "/lifecycle", label: "Lifecycle", icon: Activity },
-  { to: "/whatsapp", label: "WhatsApp Sim", icon: MessageCircle },
-  { to: "/settings", label: "Settings", icon: Settings },
+  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard, badge: false },
+  { to: "/incidents", label: "Incidents", icon: AlertTriangle, badge: true },
+  { to: "/volunteers", label: "Volunteers", icon: Users, badge: false },
+  { to: "/analytics", label: "Analytics", icon: BarChart3, badge: false },
+  { to: "/lifecycle", label: "Lifecycle", icon: Activity, badge: false },
+  { to: "/whatsapp", label: "WhatsApp Sim", icon: MessageCircle, badge: false },
+  { to: "/settings", label: "Settings", icon: Settings, badge: false },
 ] as const;
 
 export function AppSidebar() {
